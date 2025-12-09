@@ -1,0 +1,7 @@
+{
+  "name": "CAASL Flight Log",
+  "description": "Civil Aviation Authority of Sri Lanka Drone Flight Logging System",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}

@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CAASL - DRONE APPROVAL - Home</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- FontAwesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Animate.css -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css" rel="stylesheet">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS (No Preflight to preserve Bootstrap) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        corePlugins: {
+          preflight: false,
+        },
+      }
+    </script>
+    
+    <!-- Google Maps API -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAbb4Bhgq0iu_OWP-lBz-za0By-KNtV_Ys&libraries=places"></script>
+    
+    <style>
+        /* --- CAASL Template Styles Reconstruction --- */
+        body {
+            color: #666666;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 400;
+            background: #ffffff;
+            margin: 0;
+            padding: 0;
+        }
+
+        a {
+            color: #0088cc;
+            transition: .3s;
+            text-decoration: none;
+        }
+
+        a:hover, a:active, a:focus {
+            color: #005580;
+            outline: none;
+            text-decoration: none;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            padding: 15px 0;
+            background: #ffffff;
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        .top-bar .logo {
+            text-align: left;
+            overflow: hidden;
+        }
+
+        .top-bar .logo img {
+            max-width: 100%;
+            height: auto;
+            max-height: 80px;
+        }
+
+        .top-bar .top-bar-item {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+        .top-bar .top-bar-icon {
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Updated Icon Style for SVGs (Black Line Art) */
+        .top-bar .top-bar-icon i,
+        .top-bar .top-bar-icon svg {
+            width: 35px;
+            height: 35px;
+            color: #000000;
+            stroke: #000000;
+            margin-bottom: 0;
+        }
+
+        .top-bar .top-bar-text {
+            padding-left: 15px;
+            text-align: left;
+        }
+
+        .top-bar .top-bar-text h3 {
+            margin: 0 0 5px 0;
+            color: #000000;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .top-bar .top-bar-text p {
+            margin: 0;
+            color: #666666;
+            font-size: 13px;
+            font-weight: 400;
+        }
+
+        @media (max-width: 991.98px) {
+            .top-bar { display: block; }
+            .top-bar .logo { text-align: center; } 
+            .top-bar .top-bar-item { justify-content: center; margin-top: 15px; }
+        }
+
+        /* Nav Bar */
+        .nav-bar {
+            position: relative;
+            background: #0b1c2c; /* Dark Navy matches original screenshot */
+            transition: .3s;
+            z-index: 999; /* Ensure menu stays on top */
+        }
+
+        .navbar {
+            padding: 0;
+            background: transparent !important;
+        }
+
+        .navbar-brand {
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        
+        .navbar-brand:hover {
+            color: #ffffff;
+        }
+
+        .navbar-toggler {
+            padding: 5px 10px;
+            border-color: rgba(255,255,255,0.5) !important;
+            cursor: pointer;
+            touch-action: manipulation; /* Mobile optimization */
+        }
+        
+        /* FIX: Tailwind conflict - Tailwind's .collapse class sets visibility: collapse. 
+           Bootstrap needs visibility: visible. */
+        .navbar-collapse.collapse {
+            visibility: visible !important;
+        }
+
+        .navbar-dark .navbar-nav .nav-link {
+            padding: 25px 15px;
+            color: #ffffff !important;
+            font-size: 14px;
+            font-weight: 500;
+            text-transform: uppercase;
+            outline: none;
+            transition: .3s;
+        }
+
+        .navbar-dark .navbar-nav .nav-link:hover,
+        .navbar-dark .navbar-nav .nav-link.active {
+            color: #0088cc !important; /* Blue text on hover */
+        }
+
+        /* Button in Nav */
+        .nav-bar .btn {
+            padding: 8px 20px;
+            margin-left: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #ffffff;
+            background: transparent;
+            border: 2px solid #ffffff;
+            border-radius: 0;
+            transition: .3s;
+        }
+
+        .nav-bar .btn:hover {
+            color: #0b1c2c;
+            background: #ffffff;
+            border-color: #ffffff;
+        }
+        
+        @media (max-width: 991.98px) {
+            .nav-bar { padding: 15px 0; }
+            
+            .navbar-dark .navbar-nav .nav-link {
+                padding: 10px 0; 
+            }
+            
+            .nav-bar .btn {
+                margin: 10px 0 0 0;
+                display: inline-block;
+            }
+        }
+
+        /* Footer */
+        .footer {
+            position: relative;
+            margin-top: 0;
+            background: #111111;
+            color: #aaaaaa;
+            padding-top: 45px;
+        }
+
+        .footer-contact, 
+        .footer .newsletter, 
+        .footer .footer-link {
+            position: relative;
+            margin-bottom: 45px;
+        }
+
+        .footer h2 {
+            position: relative;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            font-size: 20px;
+            font-weight: 700;
+            color: #0088cc;
+            border-bottom: 2px solid #0088cc;
+            display: inline-block;
+        }
+
+        .footer p {
+            margin-bottom: 15px;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
+        .footer p i {
+            width: 25px;
+            color: #aaaaaa;
+        }
+
+        .footer-social {
+            position: relative;
+            margin-top: 20px;
+        }
+
+        .footer-social a {
+            display: inline-block;
+            width: 35px;
+            height: 35px;
+            padding: 6px 0;
+            text-align: center;
+            color: #ffffff;
+            font-size: 14px;
+            border: 1px solid #ffffff;
+            border-radius: 35px;
+            margin-right: 5px;
+            transition: .3s;
+        }
+
+        .footer-social a:hover {
+            color: #0088cc;
+            background: #ffffff;
+            border-color: #ffffff;
+        }
+
+        .footer-link a {
+            display: block;
+            margin-bottom: 10px;
+            color: #aaaaaa;
+            transition: .3s;
+        }
+
+        .footer-link a::before {
+            position: relative;
+            content: "\f105";
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            margin-right: 10px;
+        }
+
+        .footer-link a:hover {
+            color: #0088cc;
+            padding-left: 5px;
+        }
+
+        .footer-menu {
+            position: relative;
+            padding: 20px 0;
+            background: #1a1a1a;
+            border-bottom: 1px solid #333333;
+        }
+
+        .f-menu {
+            font-size: 0;
+            text-align: center;
+        }
+
+        .f-menu a {
+            color: #aaaaaa;
+            font-size: 14px;
+            margin-right: 15px;
+            padding-right: 15px;
+            border-right: 1px solid rgba(255, 255, 255, .1);
+            display: inline-block;
+        }
+
+        .f-menu a:last-child {
+            border-right: none;
+            margin-right: 0;
+        }
+        
+        .f-menu a:hover {
+            color: #0088cc;
+        }
+
+        .copyright {
+            padding: 25px 0;
+            font-size: 14px;
+            background: #111111;
+            color: #aaaaaa;
+        }
+
+        .copyright p {
+            margin: 0;
+        }
+        
+        .copyright .text-right {
+            text-align: right;
+        }
+
+        /* Back to top */
+        .back-to-top {
+            position: fixed;
+            display: none;
+            background: #0088cc;
+            color: #ffffff;
+            width: 44px;
+            height: 44px;
+            text-align: center;
+            line-height: 1;
+            font-size: 22px;
+            right: 15px;
+            bottom: 15px;
+            padding-top: 11px;
+            z-index: 9;
+            cursor: pointer;
+        }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "vite": "https://aistudiocdn.com/vite@^7.2.7",
+    "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.1.2",
+    "react/": "https://aistudiocdn.com/react@^19.2.1/",
+    "react": "https://aistudiocdn.com/react@^19.2.1",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.1/",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.556.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+
+<body>
+    <div class="wrapper">
+        <!-- Top Bar Start -->
+        <div class="top-bar">
+            <!-- Changed from container-fluid to container for spacing from edges -->
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-4 col-md-12">
+                        <div class="logo">
+                            <a href="#">
+                                <img src="https://portal.caa.lk/drone/apply-now/img/logo.png" alt="CAASL Logo">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-8 col-md-7 d-none d-lg-block">
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="top-bar-item">
+                                    <div class="top-bar-icon">
+                                        <!-- Visit Us: Calendar + Clock Line Art -->
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                          <line x1="16" y1="2" x2="16" y2="6"></line>
+                                          <line x1="8" y1="2" x2="8" y2="6"></line>
+                                          <line x1="3" y1="10" x2="21" y2="10"></line>
+                                          <circle cx="16.5" cy="17.5" r="3.5" fill="white"></circle>
+                                          <path d="M16.5 16v1.5l1 1"></path>
+                                        </svg>
+                                    </div>
+                                    <div class="top-bar-text">
+                                        <h3>Visit Us</h3>
+                                        <p>Mon - Fri, 08:30 - 16:00</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="top-bar-item">
+                                    <div class="top-bar-icon">
+                                        <!-- Call Us: Support Agent Line Art -->
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M12 2a5 5 0 0 1 5 5v2a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1v-1a2 2 0 0 0-4 0v1a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V7a5 5 0 0 1 5-5z"></path>
+                                            <path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                            <circle cx="12" cy="7" r="4"></circle>
+                                            <path d="M16 11c0 1.5-1 2-2 2"></path>
+                                        </svg>
+                                    </div>
+                                    <div class="top-bar-text">
+                                        <h3>Call Us</h3>
+                                        <p>+94 112 358 819</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="top-bar-item">
+                                    <div class="top-bar-icon">
+                                        <!-- Email Us: Browser/Screen Mail Line Art -->
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                                            <line x1="8" y1="21" x2="16" y2="21"></line>
+                                            <line x1="12" y1="17" x2="12" y2="21"></line>
+                                            <path d="M22 13l-8 5-8-5" style="display:none"></path> <!-- Hide complex paths -->
+                                            <path d="M4 7l8 5 8-5"></path>
+                                            <path d="M17 17l4 4m0-4l-4 4"></path> <!-- Paper plane or arrow hint -->
+                                            <path d="M20 16l2 5-5-2"></path>
+                                        </svg>
+                                    </div>
+                                    <div class="top-bar-text">
+                                        <h3>Email Us</h3>
+                                        <p>drone@caa.lk</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Top Bar End -->
+
+        <!-- Nav Bar Start -->
+        <div class="nav-bar">
+            <!-- Changed from container-fluid to container for spacing from edges -->
+            <div class="container">
+                <nav class="navbar navbar-expand-lg navbar-dark">
+                    <a href="#" class="navbar-brand">MENU</a>
+                    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                        <div class="navbar-nav mr-auto">
+                            <a href="https://portal.caa.lk/drone/apply-now/index.html" class="nav-item nav-link">Home</a>
+                            <a href="https://iamarasinghe96.github.io/pilotregistration/" class="nav-item nav-link">Pilot Registration</a>
+                            <a href="https://iamarasinghe96.github.io/logaflight/" class="nav-item nav-link active">Log a flight</a>
+                            <a href="https://iamarasinghe96.github.io/licenseverification/#" class="nav-item nav-link">License Verification</a>
+                            <a href="#footq" class="nav-item nav-link">Contact</a>
+                        </div>
+                        <div class="ml-auto d-none d-lg-block">
+                            <a class="btn" href="https://portal.caa.lk/drone/apply-now/report.php">Fly My Drone</a>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <!-- Nav Bar End -->
+
+        <!-- Main React App Content -->
+        <div id="root">
+            <div style="display: flex; justify-content: center; align-items: center; height: 50vh; color: #666; font-family: sans-serif; flex-direction: column; gap: 15px;">
+                <div class="spinner-border text-primary" role="status">
+                  <span class="sr-only">Loading...</span>
+                </div>
+                <div>Loading Application...</div>
+            </div>
+        </div>
+
+        <!-- Footer Start -->
+        <div class="footer wow fadeIn" data-wow-delay="0.3s" id="footq">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-lg-3">
+                        <div class="footer-contact">
+                            <h2>CAASL Contact</h2>
+                            <p><i class="fa fa-map-marker-alt"></i>52/1 Minuwangoda Road, Katunayake, Sri Lanka</p>
+                            <p><i class="fa fa-phone-alt"></i>+94 112 358 819</p>
+                            <p><i class="fa fa-envelope"></i>drone@caa.lk</p>
+                            <p><i class="fa fa-envelope"></i>caiuas@caa.lk</p>
+                            
+                            <div class="footer-social">
+                                <a href="https://twitter.com/caaslofficial"><i class="fab fa-twitter"></i></a>
+                                <a href="https://www.facebook.com/caaslofficial"><i class="fab fa-facebook-f"></i></a>
+                                <a href="https://www.youtube.com/channel/UC8n2R0z8LnPNHf1DEnjTG9g"><i class="fab fa-youtube"></i></a>
+                                <a href="https://www.instagram.com/caaslofficial/"><i class="fab fa-instagram"></i></a>
+                                <a href="https://www.linkedin.com/company/caasl-civil-aviation-authority-of-sri-lanka/"><i class="fab fa-linkedin-in"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6">
+                        <div class="newsletter">
+                            <h2>About</h2>
+                            <p>
+                                Fly your drone in Sri Lanka - CAASL Drone Flying Approvals.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="footer-link">
+                            <h2>Useful Links</h2>
+                            <a href="https://www.icao.int/Pages/default.aspx">International Civil Aviation Organization</a>
+                            <a href="https://www.caa.lk/en/">Civil Aviation Authority of Sri Lanka</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container footer-menu">
+                <div class="f-menu">
+                    <a href="https://portal.caa.lk/drone/apply-now/index.html">Home</a>
+                    <a href="https://portal.caa.lk/drone/apply-now/report.php">Fly My Drone</a>
+                    <a href="#footq">Contact</a>
+                    <a href="https://portal.caa.lk/drone/apply-now/index.html">FQAs</a>
+                </div>
+            </div>
+            <div class="container copyright">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p>© 2022-2023, All Right Reserved.</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="text-right">Designed & Developed By CAASL - IT DIVISION</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Footer End -->
+
+        <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
+    
+    <!-- Template Javascript Init -->
+    <script>
+        (function ($) {
+            "use strict";
+            // Initiate the wowjs
+            new WOW().init();
+            
+            // Back to top button
+            $(window).scroll(function () {
+                if ($(this).scrollTop() > 100) {
+                    $('.back-to-top').fadeIn('slow');
+                } else {
+                    $('.back-to-top').fadeOut('slow');
+                }
+            });
+            $('.back-to-top').click(function () {
+                $('html, body').animate({scrollTop: 0}, 1500, 'easeInOutExpo');
+                return false;
+            });
+        })(jQuery);
+    </script>
+    
+    <!-- React Entry -->
+    <script type="module" src="./index.tsx"></script>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>
